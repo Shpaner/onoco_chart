@@ -2,7 +2,28 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class Chart extends StatelessWidget {
-  const Chart({Key? key}) : super(key: key);
+  final LineChartBarData linePercentile50High;
+  final LineChartBarData linePercentile50Low;
+  final LineChartBarData linePercentile75High;
+  final LineChartBarData linePercentile75Low;
+  final LineChartBarData linePercentile90High;
+  final LineChartBarData linePercentile90Low;
+  final LineChartBarData linePercentile95High;
+  final LineChartBarData linePercentile95Low;
+  final LineChartBarData lineData;
+
+  const Chart({
+    required this.linePercentile50High,
+    required this.linePercentile50Low,
+    required this.linePercentile75High,
+    required this.linePercentile75Low,
+    required this.linePercentile90High,
+    required this.linePercentile90Low,
+    required this.linePercentile95High,
+    required this.linePercentile95Low,
+    required this.lineData,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +55,6 @@ class Chart extends StatelessWidget {
         ),
       );
 
-  // TODO
-  //Widget _buildPercentileChart() => ;
-
   Widget _buildLineChart() => AspectRatio(
         aspectRatio: 0.8,
         child: Padding(
@@ -61,39 +79,39 @@ class Chart extends StatelessWidget {
               fromIndex: 0,
               toIndex: 1,
               colors: [
-                //Colors.red,
-                const Color(0xFF2FC0EF).withOpacity(0.2),
+                Colors.green,
+                //const Color(0xFF2FC0EF).withOpacity(0.2),
               ],
             ),
             BetweenBarsData(
               fromIndex: 2,
               toIndex: 3,
               colors: [
-                //Colors.red,
-                const Color(0xFF2FC0EF).withOpacity(0.3),
+                Colors.red,
+                //const Color(0xFF2FC0EF).withOpacity(0.3),
               ],
             ),
             BetweenBarsData(
               fromIndex: 5,
               toIndex: 6,
               colors: [
-                //Colors.yellow,
-                const Color(0xFF2FC0EF).withOpacity(0.4),
+                Colors.yellow,
+                //const Color(0xFF2FC0EF).withOpacity(0.4),
               ],
             ),
             BetweenBarsData(
               fromIndex: 4,
               toIndex: 5,
               colors: [
-                //Colors.green,
-                const Color(0xFF2FC0EF),
+                Colors.blue,
+                //const Color(0xFF2FC0EF),
               ],
             ),
           ],
           minX: 0,
-          maxX: 14,
-          maxY: 9,
-          minY: 0,
+          maxX: 24,
+          maxY: 95,
+          minY: 50,
         ),
         swapAnimationDuration: const Duration(milliseconds: 250),
       );
@@ -107,25 +125,25 @@ class Chart extends StatelessWidget {
         leftTitles: leftTitles(
           getTitles: (value) {
             switch (value.toInt()) {
-              case 0:
+              case 50:
                 return '50';
-              case 1:
+              case 55:
                 return '55';
-              case 2:
+              case 60:
                 return '60';
-              case 3:
+              case 65:
                 return '65';
-              case 4:
+              case 70:
                 return '70';
-              case 5:
+              case 75:
                 return '75';
-              case 6:
+              case 80:
                 return '80';
-              case 7:
+              case 85:
                 return '85';
-              case 8:
+              case 90:
                 return '90';
-              case 9:
+              case 95:
                 return '95';
             }
             return '';
@@ -146,19 +164,19 @@ class Chart extends StatelessWidget {
         ),
         getTitles: (value) {
           switch (value.toInt()) {
-            case 1:
-              return '1';
-            case 3:
+            case 0:
+              return '0';
+            case 4:
               return '4';
-            case 5:
+            case 8:
               return '8';
-            case 7:
+            case 12:
               return '12';
-            case 9:
+            case 16:
               return '16';
-            case 11:
+            case 20:
               return '20';
-            case 13:
+            case 24:
               return '24';
           }
           return '';
@@ -186,177 +204,42 @@ class Chart extends StatelessWidget {
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
-            strokeWidth: shouldGridBeThick ? 0.5 : 0.3,
+            strokeWidth:
+                shouldGridBeThick ? _gridThicknessBig : _gridThicknessSmall,
           );
         },
         // This could be 0.3333 to match design but then it wouldn't be ideal.
-        horizontalInterval: shouldGridBeThick ? 1.0 : 0.5,
+        horizontalInterval: shouldGridBeThick ? 5.0 : 2.5,
       );
 
   FlBorderData get _borderData => FlBorderData(
         show: true,
         border: const Border(
           // Since other lines overlap they appear bigger, so border sides have to be increased by 1 in order to mach other thickened lines.
-          bottom: BorderSide(color: Color(0xff37434d), width: 0.6),
+          bottom: BorderSide(color: Color(0xff37434d), width: _borderThickness),
           left: BorderSide(color: Colors.transparent),
           right: BorderSide(color: Colors.transparent),
-          top: BorderSide(color: Color(0xff37434d), width: 0.6),
+          top: BorderSide(color: Color(0xff37434d), width: _borderThickness),
         ),
       );
 
   List<LineChartBarData> get _lineBarsData => [
-        _linePercentile50High,
-        _linePercentile50Low,
-        _linePercentile75High,
-        _linePercentile75Low,
-        _linePercentile95High,
-        _linePercentile95Low,
-        _linePercentile90High,
-        _linePercentile90Low,
-        _lineData,
+        linePercentile50High,
+        linePercentile50Low,
+        linePercentile75High,
+        linePercentile75Low,
+        linePercentile95High,
+        linePercentile95Low,
+        linePercentile90High,
+        linePercentile90Low,
+        lineData,
       ];
-
-  LineChartBarData get _lineData => LineChartBarData(
-        isCurved: false,
-        colors: const [Color(0xFF5231B4)],
-        barWidth: 2,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: true),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 1.5),
-          FlSpot(1.25, 1.6),
-          FlSpot(2, 1.9),
-          FlSpot(2.2, 2.0),
-          FlSpot(2.75, 2.2),
-          FlSpot(4, 2.5),
-          FlSpot(4.25, 2.6),
-          FlSpot(4.7, 2.9),
-          FlSpot(5, 3.0),
-          FlSpot(6.0, 3.1),
-          FlSpot(7, 3.5),
-          FlSpot(8, 3.6),
-          FlSpot(9, 3.7),
-          FlSpot(10, 3.8),
-          FlSpot(11, 4),
-          FlSpot(12, 4.2),
-          FlSpot(13, 4.5),
-        ],
-      );
-
-  LineChartBarData get _linePercentile95High => LineChartBarData(
-        isCurved: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 2.4),
-          FlSpot(1, 2.6),
-          FlSpot(6, 4.2),
-          FlSpot(13, 5.6),
-          FlSpot(14, 6.0),
-        ],
-      );
-
-  LineChartBarData get _linePercentile95Low => LineChartBarData(
-        isCurved: true,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 0.9),
-          FlSpot(1, 1.25),
-          FlSpot(6, 2.95),
-          FlSpot(13, 4.25),
-          FlSpot(14, 4.5),
-        ],
-      );
-
-  LineChartBarData get _linePercentile90High => LineChartBarData(
-        colors: [const Color(0xFF2FC0EF).withOpacity(0.4)],
-        isCurved: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 3.6),
-          FlSpot(1, 3.8),
-          FlSpot(6, 5.4),
-          FlSpot(13, 6.8),
-          FlSpot(14, 7.0),
-        ],
-      );
-
-  LineChartBarData get _linePercentile90Low => LineChartBarData(
-        colors: [const Color(0xFF2FC0EF).withOpacity(0.3)],
-        isCurved: true,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 0.7),
-          FlSpot(1, 1.15),
-          FlSpot(6, 2.85),
-          FlSpot(13, 4.05),
-          FlSpot(14, 4.3),
-        ],
-      );
-
-  LineChartBarData get _linePercentile75High => LineChartBarData(
-        colors: [const Color(0xFF2FC0EF).withOpacity(0.3)],
-        isCurved: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 4.6),
-          FlSpot(1, 4.8),
-          FlSpot(6, 6.4),
-          FlSpot(13, 7.8),
-          FlSpot(14, 8.0),
-        ],
-      );
-
-  LineChartBarData get _linePercentile75Low => LineChartBarData(
-        colors: [const Color(0xFF2FC0EF).withOpacity(0.4)],
-        isCurved: true,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 0.7),
-          FlSpot(1, 1.15),
-          FlSpot(6, 2.85),
-          FlSpot(13, 4.05),
-          FlSpot(14, 4.3),
-        ],
-      );
-
-  LineChartBarData get _linePercentile50High => LineChartBarData(
-        colors: [const Color(0xFF2FC0EF).withOpacity(0.2)],
-        isCurved: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 5.6),
-          FlSpot(1, 5.8),
-          FlSpot(6, 7.4),
-          FlSpot(13, 8.8),
-          FlSpot(14, 9.0),
-        ],
-      );
-
-  LineChartBarData get _linePercentile50Low => LineChartBarData(
-        colors: [const Color(0xFF2FC0EF).withOpacity(0.3)],
-        isCurved: true,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 0.7),
-          FlSpot(1, 1.15),
-          FlSpot(6, 2.85),
-          FlSpot(13, 4.05),
-          FlSpot(14, 4.3),
-        ],
-      );
 }
 
 enum Percentiles { ninetyFive, ninety, seventyFive, fifty }
+
+const double _gridThicknessSmall = 0.2;
+
+const double _gridThicknessBig = 0.3;
+
+const double _borderThickness = _gridThicknessBig + 0.1;
