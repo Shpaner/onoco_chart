@@ -38,8 +38,9 @@ class ChartLine {
         isStrokeCapRound: true,
         dotData: FlDotData(
           show: true,
-          getDotPainter: (spot, percent, barData, index) =>
-              FlDotCirclePainter(radius: 5.5, color: AppColors.chartLinePurple),
+          getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+              radius: Constants.lineBarDotSize,
+              color: AppColors.chartLinePurple),
         ),
         belowBarData: BarAreaData(show: false),
         spots: spots,

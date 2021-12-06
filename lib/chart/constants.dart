@@ -7,17 +7,17 @@ enum ChartType { height, weight, head }
 class Constants {
   static const double kGridThickness = 1.0;
 
-  static const double lineBarWidth = 4.0;
+  static const double lineBarWidth = 4.3;
 
-  static const double lineBarDotSize = 4.2;
+  static const double lineBarDotSize = 4.6;
 
-  static const double _backgroundLineBarDifference = 2.5;
+  static const double _backgroundLineBarDifference = 1.0;
 
   static const double backgroundLineBarWidth =
-      lineBarWidth + _backgroundLineBarDifference;
+      lineBarWidth * 1.1 + _backgroundLineBarDifference;
 
   static const double backgroundLineBarDotSize =
-      lineBarDotSize + _backgroundLineBarDifference;
+      lineBarDotSize * 0.95 + _backgroundLineBarDifference;
 
   static const double gridIntervalsSmall = 2.5;
 
