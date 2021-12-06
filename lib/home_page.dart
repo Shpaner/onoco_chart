@@ -15,7 +15,8 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: Chart(
           chartData: MockData().chartData,
-          chartType: ChartType.height,
+          chartType: ChartType.head,
+          isDarkMode: true,
         ),
       ),
     );

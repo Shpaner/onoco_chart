@@ -34,9 +34,13 @@ class ChartLine {
   LineChartBarData buildLine() => LineChartBarData(
         isCurved: false,
         colors: [AppColors.chartLinePurple],
-        barWidth: 2,
+        barWidth: Constants.lineBarWidth,
         isStrokeCapRound: true,
-        dotData: FlDotData(show: true),
+        dotData: FlDotData(
+          show: true,
+          getDotPainter: (spot, percent, barData, index) =>
+              FlDotCirclePainter(radius: 5.5, color: AppColors.chartLinePurple),
+        ),
         belowBarData: BarAreaData(show: false),
         spots: spots,
       );
