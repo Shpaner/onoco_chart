@@ -1,27 +1,17 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:percentile_chart/chart/constants.dart';
+import 'package:percentile_chart/chart/helpers.dart';
+
+import 'models.dart';
 
 class Chart extends StatelessWidget {
-  final LineChartBarData linePercentile50High;
-  final LineChartBarData linePercentile50Low;
-  final LineChartBarData linePercentile75High;
-  final LineChartBarData linePercentile75Low;
-  final LineChartBarData linePercentile90High;
-  final LineChartBarData linePercentile90Low;
-  final LineChartBarData linePercentile95High;
-  final LineChartBarData linePercentile95Low;
-  final LineChartBarData lineData;
+  final ChartData chartData;
+  final ChartType chartType;
 
   const Chart({
-    required this.linePercentile50High,
-    required this.linePercentile50Low,
-    required this.linePercentile75High,
-    required this.linePercentile75Low,
-    required this.linePercentile90High,
-    required this.linePercentile90Low,
-    required this.linePercentile95High,
-    required this.linePercentile95Low,
-    required this.lineData,
+    required this.chartData,
+    required this.chartType,
     Key? key,
   }) : super(key: key);
 
@@ -32,7 +22,7 @@ class Chart extends StatelessWidget {
       child: Stack(
         children: [
           _buildBackgroundChart(),
-          _buildLineChart(),
+          _buildGridChart(),
         ],
       ),
     );
@@ -55,7 +45,7 @@ class Chart extends StatelessWidget {
         ),
       );
 
-  Widget _buildLineChart() => AspectRatio(
+  Widget _buildGridChart() => AspectRatio(
         aspectRatio: 0.8,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -73,42 +63,33 @@ class Chart extends StatelessWidget {
           titlesData: _titlesData,
           gridData: _gridData(shouldGridBeThick: isBackgroundChart),
           borderData: _borderData,
-          lineBarsData: _lineBarsData,
-          betweenBarsData: [
-            BetweenBarsData(
-              fromIndex: 0,
-              toIndex: 1,
-              colors: [
-                Colors.green,
-                //const Color(0xFF2FC0EF).withOpacity(0.2),
-              ],
-            ),
-            BetweenBarsData(
-              fromIndex: 2,
-              toIndex: 3,
-              colors: [
-                Colors.red,
-                //const Color(0xFF2FC0EF).withOpacity(0.3),
-              ],
-            ),
-            BetweenBarsData(
-              fromIndex: 5,
-              toIndex: 6,
-              colors: [
-                Colors.yellow,
-                //const Color(0xFF2FC0EF).withOpacity(0.4),
-              ],
-            ),
-            BetweenBarsData(
-              fromIndex: 4,
-              toIndex: 5,
-              colors: [
-                Colors.blue,
-                //const Color(0xFF2FC0EF),
-              ],
-            ),
-          ],
-          minX: 0,
+          lineBarsData:
+              isBackgroundChart ? _lineBarsData : _backgroundLineBarsData,
+          betweenBarsData: isBackgroundChart
+              ? [
+                  BetweenBarsData(
+                    fromIndex: 0,
+                    toIndex: 1,
+                    colors: [chartColor(chartType).withOpacity(0.2)],
+                  ),
+                  BetweenBarsData(
+                    fromIndex: 2,
+                    toIndex: 3,
+                    colors: [chartColor(chartType).withOpacity(0.4)],
+                  ),
+                  BetweenBarsData(
+                    fromIndex: 6,
+                    toIndex: 7,
+                    colors: [chartColor(chartType).withOpacity(0.3)],
+                  ),
+                  BetweenBarsData(
+                    fromIndex: 4,
+                    toIndex: 5,
+                    colors: [chartColor(chartType)],
+                  ),
+                ]
+              : [],
+          minX: -0,
           maxX: 24,
           maxY: 95,
           minY: 50,
@@ -204,8 +185,9 @@ class Chart extends StatelessWidget {
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
-            strokeWidth:
-                shouldGridBeThick ? _gridThicknessBig : _gridThicknessSmall,
+            strokeWidth: shouldGridBeThick
+                ? Constants.kGridThicknessBig
+                : Constants.kGridThicknessSmall,
           );
         },
         // This could be 0.3333 to match design but then it wouldn't be ideal.
@@ -216,30 +198,44 @@ class Chart extends StatelessWidget {
         show: true,
         border: const Border(
           // Since other lines overlap they appear bigger, so border sides have to be increased by 1 in order to mach other thickened lines.
-          bottom: BorderSide(color: Color(0xff37434d), width: _borderThickness),
+          bottom: BorderSide(
+              color: AppColors.borderColor, width: Constants.kBorderThickness),
           left: BorderSide(color: Colors.transparent),
           right: BorderSide(color: Colors.transparent),
-          top: BorderSide(color: Color(0xff37434d), width: _borderThickness),
+          top: BorderSide(
+              color: AppColors.borderColor, width: Constants.kBorderThickness),
         ),
       );
 
   List<LineChartBarData> get _lineBarsData => [
-        linePercentile50High,
-        linePercentile50Low,
-        linePercentile75High,
-        linePercentile75Low,
-        linePercentile95High,
-        linePercentile95Low,
-        linePercentile90High,
-        linePercentile90Low,
-        lineData,
+        chartData.chartPercentile50High
+            .buildPercentiles()
+            .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+        chartData.chartPercentile50Low
+            .buildPercentiles()
+            .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+        chartData.chartPercentile75High
+            .buildPercentiles()
+            .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+        chartData.chartPercentile75Low
+            .buildPercentiles()
+            .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+        chartData.chartPercentile95High
+            .buildPercentiles()
+            .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+        chartData.chartPercentile95Low
+            .buildPercentiles()
+            .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+        chartData.chartPercentile90High
+            .buildPercentiles()
+            .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+        chartData.chartPercentile90Low
+            .buildPercentiles()
+            .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+        chartData.chartLine.buildLine(),
+      ];
+
+  List<LineChartBarData> get _backgroundLineBarsData => [
+        chartData.chartLine.buildLine(),
       ];
 }
-
-enum Percentiles { ninetyFive, ninety, seventyFive, fifty }
-
-const double _gridThicknessSmall = 0.2;
-
-const double _gridThicknessBig = 0.3;
-
-const double _borderThickness = _gridThicknessBig + 0.1;
