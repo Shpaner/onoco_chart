@@ -40,6 +40,7 @@ class MockData {
   /// To jest klasa, ktora przesylam bezposrednio do charta jako
   /// zbior wszystkich punktow ptrzebnych do wykresu
   final ChartData chartData = const ChartData(
+    chartExtent: _chartExtent,
     chartLine: _chartLine,
     chartPercentile95High: _chartPercentile95High,
     chartPercentile95Low: _chartPercentile95Low,
@@ -49,6 +50,13 @@ class MockData {
     chartPercentile75Low: _chartPercentile75Low,
     chartPercentile50High: _chartPercentile50High,
     chartPercentile50Low: _chartPercentile50Low,
+  );
+
+  static const ChartExtent _chartExtent = ChartExtent(
+    minX: 0,
+    maxX: 24,
+    minY: 50,
+    maxY: 95,
   );
 
   /// chart line to wykres punktow z inputu uzytkownika

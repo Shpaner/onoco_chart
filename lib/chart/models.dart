@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'constants.dart';
 
 class ChartData {
+  final ChartExtent chartExtent;
   final ChartLine chartLine;
   final ChartPercentile chartPercentile95High;
   final ChartPercentile chartPercentile95Low;
@@ -14,6 +15,7 @@ class ChartData {
   final ChartPercentile chartPercentile50Low;
 
   const ChartData({
+    required this.chartExtent,
     required this.chartLine,
     required this.chartPercentile95High,
     required this.chartPercentile95Low,
@@ -58,4 +60,18 @@ class ChartPercentile {
         belowBarData: BarAreaData(show: false),
         spots: spots,
       );
+}
+
+class ChartExtent {
+  final double minX;
+  final double maxX;
+  final double minY;
+  final double maxY;
+
+  const ChartExtent({
+    required this.minX,
+    required this.maxX,
+    required this.minY,
+    required this.maxY,
+  });
 }

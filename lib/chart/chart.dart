@@ -79,10 +79,10 @@ class Chart extends StatelessWidget {
           ),
           betweenBarsData:
               isBackgroundChart ? [] : percentiles(chartType: chartType),
-          minX: 0,
-          maxX: 24,
-          maxY: maxY(chartType: chartType),
-          minY: minY(chartType: chartType),
+          minX: chartData.chartExtent.minX,
+          maxX: chartData.chartExtent.maxX,
+          minY: chartData.chartExtent.minY,
+          maxY: chartData.chartExtent.maxY,
         ),
         swapAnimationDuration: const Duration(milliseconds: 250),
       );

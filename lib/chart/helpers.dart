@@ -16,21 +16,6 @@ Color chartColor(ChartType type) {
   }
 }
 
-// TODO fill with values from Gosia.
-double minY({required ChartType chartType}) {
-  switch (chartType) {
-    default:
-      return 50;
-  }
-}
-
-double maxY({required ChartType chartType}) {
-  switch (chartType) {
-    default:
-      return 95;
-  }
-}
-
 List<BetweenBarsData> percentiles({required ChartType chartType}) {
   return [
     BetweenBarsData(
