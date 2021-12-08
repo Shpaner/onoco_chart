@@ -55,15 +55,13 @@ class MockData {
   static const ChartExtent _chartExtent = ChartExtent(
     minX: 0,
     maxX: 24,
-    minY: 50,
+    minY: 45,
     maxY: 95,
   );
 
   /// chart line to wykres punktow z inputu uzytkownika
   static const ChartLine _chartLine = ChartLine(
     [
-      /// kazdy punkt to odpowiednio (X, Y), gdzie 'X' to miesiac,
-      /// a 'Y' to wartosc (wzrost, waga lub obwod glowy)
       FlSpot(0.5, 54),
       FlSpot(1.9, 59),
       FlSpot(7.8, 63),
@@ -76,23 +74,72 @@ class MockData {
   /// PERCENTYLE !
   static const _chartPercentile95High = ChartPercentile(
     [
-      FlSpot(0.0, 59),
-      FlSpot(12.0, 73),
-      FlSpot(24, 86),
+      FlSpot(0, 52.212), // 0
+      FlSpot(2, 60.43), // 61
+      FlSpot(4, 65.668), // 122
+      FlSpot(6, 69.48), // 183
+      FlSpot(8, 72.665), // 244
+      FlSpot(10, 75.523), // 304
+      FlSpot(12, 78.282), // 366
+      FlSpot(14, 80.792), // 426
+      FlSpot(16, 83.202), // 487
+      FlSpot(18, 85.489), // 548
+      FlSpot(20, 87.668), // 609
+      FlSpot(22, 89.75), // 670
+      FlSpot(24, 91.038), // 731
+      // FlSpot(0.0, 59),
+      // FlSpot(12.0, 73),
+      // FlSpot(24, 86),
+
+      FlSpot(1, 56.974), // 31
+      FlSpot(3, 63.324), // 92
+      FlSpot(5, 67.727), // 153
+      FlSpot(7, 71.145), // 214
+      FlSpot(9, 74.167), // 275
+      FlSpot(11, 76.971), // 336
+      FlSpot(13, 79.598), // 397
+      FlSpot(15, 82.072), // 458
+      FlSpot(17, 84.416), // 519
+      FlSpot(19, 86.645), // 580
+      FlSpot(21, 88.772), // 641
+      FlSpot(23, 90.803), // 702
     ],
   );
 
   static const _chartPercentile95Low = ChartPercentile(
     [
-      FlSpot(0.0, 57),
-      FlSpot(12.0, 71),
-      FlSpot(24, 84),
+      FlSpot(0, 46.084), // 0
+      FlSpot(2, 53.73), // 61
+      FlSpot(4, 58.546), // 122
+      FlSpot(6, 62.022), // 183
+      FlSpot(8, 64.882), // 244
+      FlSpot(10, 67.408), // 304
+      FlSpot(12, 69.808), // 366
+      FlSpot(14, 71.962), // 426
+      FlSpot(16, 74.009), // 487
+      FlSpot(18, 75.935), // 548
+      FlSpot(20, 77.755), // 609
+      FlSpot(22, 79.481), // 670
+      FlSpot(24, 80.422), // 731
+
+      FlSpot(1, 50.54), // 31
+      FlSpot(3, 56.394), // 92
+      FlSpot(5, 60.429), // 153
+      FlSpot(7, 63.522), // 214
+      FlSpot(9, 66.215), // 275
+      FlSpot(11, 68.67), // 336
+      FlSpot(13, 70.939), // 397
+      FlSpot(15, 73.052), // 458
+      FlSpot(17, 75.034), // 519
+      FlSpot(19, 76.902), // 580
+      FlSpot(21, 78.672), // 641
+      FlSpot(23, 80.353), // 702
     ],
   );
 
   static const _chartPercentile90High = ChartPercentile(
     [
-      FlSpot(0.0, 61),
+      FlSpot(0.0, 55),
       FlSpot(12.0, 75),
       FlSpot(24, 88),
     ],

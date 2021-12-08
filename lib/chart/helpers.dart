@@ -21,22 +21,26 @@ List<BetweenBarsData> percentiles({required ChartType chartType}) {
     BetweenBarsData(
       fromIndex: 0,
       toIndex: 1,
-      colors: [chartColor(chartType).withOpacity(0.2)],
+      colors: [AppColors.chartOrange],
+
+      //[chartColor(chartType).withOpacity(0.0)],
     ),
     BetweenBarsData(
       fromIndex: 2,
       toIndex: 3,
-      colors: [chartColor(chartType).withOpacity(0.4)],
+      colors: [chartColor(chartType).withOpacity(0.0)],
     ),
     BetweenBarsData(
       fromIndex: 6,
       toIndex: 7,
-      colors: [chartColor(chartType).withOpacity(0.3)],
+      colors: [
+        chartColor(chartType).withOpacity(0.0),
+      ],
     ),
     BetweenBarsData(
       fromIndex: 4,
       toIndex: 5,
-      colors: [chartColor(chartType)],
+      colors: [chartColor(chartType).withOpacity(0.0)],
     ),
   ];
 }
@@ -96,40 +100,40 @@ List<LineChartBarData> lineBarsData(
     [
       chartData.chartPercentile50High
           .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+          .copyWith(colors: [chartColor(chartType).withOpacity(0.0)]),
       chartData.chartPercentile50Low
           .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+          .copyWith(colors: [chartColor(chartType).withOpacity(0.0)]),
       chartData.chartPercentile75High
           .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+          .copyWith(colors: [chartColor(chartType).withOpacity(0.0)]),
       chartData.chartPercentile75Low
           .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+          .copyWith(colors: [chartColor(chartType).withOpacity(0.0)]),
       chartData.chartPercentile95High
           .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+          .copyWith(colors: [chartColor(chartType).withOpacity(0.0)]),
       chartData.chartPercentile95Low
           .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+          .copyWith(colors: [chartColor(chartType).withOpacity(0.0)]),
       chartData.chartPercentile90High
           .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+          .copyWith(colors: [chartColor(chartType).withOpacity(0.0)]),
       chartData.chartPercentile90Low
           .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
-      chartData.chartLine.buildLine().copyWith(
-        barWidth: isDarkMode ? Constants.backgroundLineBarWidth : 0.0,
-        dotData: FlDotData(
-          show: isDarkMode,
-          getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
-            radius: Constants.backgroundLineBarDotSize,
-            color: AppColors.white,
-            strokeColor: AppColors.white,
-            //strokeWidth: Constants.backgroundLineBarDotSize,
-          ),
-        ),
-        colors: [AppColors.white],
-      ),
-      chartData.chartLine.buildLine(),
+          .copyWith(colors: [chartColor(chartType).withOpacity(0.0)]),
+      // chartData.chartLine.buildLine().copyWith(
+      //   barWidth: isDarkMode ? Constants.backgroundLineBarWidth : 0.0,
+      //   dotData: FlDotData(
+      //     show: isDarkMode,
+      //     getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+      //       radius: Constants.backgroundLineBarDotSize,
+      //       color: AppColors.white,
+      //       strokeColor: AppColors.white,
+      //       //strokeWidth: Constants.backgroundLineBarDotSize,
+      //     ),
+      //   ),
+      //   colors: [AppColors.white],
+      // ),
+      // chartData.chartLine.buildLine(),
     ];
