@@ -133,3 +133,15 @@ List<LineChartBarData> lineBarsData(
       ),
       chartData.chartLine.buildLine(),
     ];
+
+List<FlSpot> getSpots(
+    {required List<int> days,
+    required int percentile,
+    required List<List<dynamic>> data}) {
+  List<FlSpot> _spots = [];
+  for (int i = 0; i < days.length; i++) {
+    _spots.add(FlSpot(days[i].toDouble(), data[days[i]][percentile]));
+  }
+
+  return _spots;
+}

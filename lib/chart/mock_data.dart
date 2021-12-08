@@ -1,44 +1,11 @@
-/// potrzebuje nastepujace punkty:
-///
-/// dla osi X (miesiace): od 0 do 24, gdzie '0' to urodziny, a '24' to 2 lata
-/// dla osi Y (wartosc): tu zaleznie od typu wykresu tj. wysokosc, waga lub obwod glowy
-///
-/// zakres osi x to zawsze 0 - 24
-/// zakres osi y to:
-///   dla wysokosci: 50 - 95
-///   dla wagi i glowy zaputalem gosie, bo na designach nie ma wartosci
-///
-/// przy kazdym pobraniu danych z api potrzebuje zbior punktow ktore zawarlem  w klasie ponizej,
-/// najlepiej byloby zwracac caluy model, ale listy punktow tez nie beda zlym rozwiazaniem.
-///
-/// w kazdym pobraniu musi byc lista punktow wbitych przez uzytkownika i punkty percentyli
-///
-/// PUNKTY OD UZYTKOWNIKA:
-/// np. wysokosc: (0, 52), (8,63),...(20,76) - x to miesiac, y to to wysokosc dziecka podane przez uzytkownika
-///
-/// JAK ZAPISUJEMY PERCENTYLE?
-/// zeby przedstawic percentyle na wykresie potrzebuje wykres gorny i dolny, zeby narysowac ich pole
-/// percentyle dzielimy na 4 kategorie, gdzie kazdy tak jak wyzej wspomnialem dzielimy na gorny i dolny
-/// te kategorie sa wziete z designu i wygladaja nastepujaco:
-/// 95 ( high / low ) - najcisniejsze,
-/// 90 (high / low ) - szersze,
-/// ...
-/// 50 (high / low ) najszersze,
-///
-/// Do narysowania percentyli potrzebuje wszystkie kategorie,
-/// ale islosc punktow mozemy okroic tak jak o tym rozmawialismy,
-/// tj. dla kazdego miesiaca jeden percentyl czyli zakres gorny i dolny.
-/// Idac tym tokiem, potrzebujemy 8 LIST PUNKTOW PERCENTYLOWYCH
-///
-/// przykladowe zbiory punktow percentylowych beda wygladaly tak jak ponizej w klaise MOCK DATA, po komentarzu "Percentyle!"
-///
 import 'package:fl_chart/fl_chart.dart';
+import 'package:percentile_chart/chart/helpers.dart';
 
 import 'models.dart';
 
-class MockData {
-  /// To jest klasa, ktora przesylam bezposrednio do charta jako
-  /// zbior wszystkich punktow ptrzebnych do wykresu
+/// ALL Mock Data corresponds with: lhfa, girls, height, 0 - 2y, day 0 to day 740
+
+class MockData3 {
   final ChartData chartData = const ChartData(
     chartExtent: _chartExtent,
     chartLine: _chartLine,
@@ -59,11 +26,8 @@ class MockData {
     maxY: 95,
   );
 
-  /// chart line to wykres punktow z inputu uzytkownika
   static const ChartLine _chartLine = ChartLine(
     [
-      /// kazdy punkt to odpowiednio (X, Y), gdzie 'X' to miesiac,
-      /// a 'Y' to wartosc (wzrost, waga lub obwod glowy)
       FlSpot(0.5, 54),
       FlSpot(1.9, 59),
       FlSpot(7.8, 63),
@@ -73,7 +37,6 @@ class MockData {
     ],
   );
 
-  /// PERCENTYLE !
   static const _chartPercentile95High = ChartPercentile(
     [
       FlSpot(0.0, 59),
@@ -137,4 +100,183 @@ class MockData {
       FlSpot(24, 76),
     ],
   );
+}
+
+ChartData chartData(
+    {required List<int> days, required List<List<double>> data}) {
+  return ChartData(
+    chartExtent: MockData10.chartExtent,
+    chartLine: MockData10.chartLine,
+    chartPercentile95High:
+        ChartPercentile(getSpots(days: days, percentile: 15, data: data)),
+    chartPercentile90High:
+        ChartPercentile(getSpots(days: days, percentile: 14, data: data)),
+    chartPercentile75High:
+        ChartPercentile(getSpots(days: days, percentile: 12, data: data)),
+    chartPercentile50High:
+        ChartPercentile(getSpots(days: days, percentile: 11, data: data)),
+    chartPercentile50Low:
+        ChartPercentile(getSpots(days: days, percentile: 11, data: data)),
+    chartPercentile75Low:
+        ChartPercentile(getSpots(days: days, percentile: 10, data: data)),
+    chartPercentile90Low:
+        ChartPercentile(getSpots(days: days, percentile: 8, data: data)),
+    chartPercentile95Low:
+        ChartPercentile(getSpots(days: days, percentile: 7, data: data)),
+  );
+}
+
+class MockData10 {
+  final List<int> days;
+  final List<List<double>> data;
+
+  MockData10({required this.days, required this.data});
+
+  static const ChartExtent chartExtent = ChartExtent(
+    minX: 0,
+    maxX: 24,
+    minY: 49,
+    maxY: 95,
+  );
+
+  static const ChartLine chartLine = ChartLine(
+    [
+      FlSpot(0.5, 54),
+      FlSpot(1.9, 59),
+      FlSpot(7.8, 63),
+      FlSpot(9, 67),
+      FlSpot(13.5, 70),
+      FlSpot(18, 76),
+    ],
+  );
+
+  // ChartPercentile _chartPercentile95High = ChartPercentile(
+  //   _getSpots(_getDays, 2)
+  //   // [
+  //   //   //                 in days:
+  //   //   FlSpot(0, 59), // 0
+  //   //   FlSpot(2, 86), // 61
+  //   //   FlSpot(4, 86), // 122
+  //   //   FlSpot(6, 86), // 183
+  //   //   FlSpot(8, 86), // 244
+  //   //   FlSpot(10, 86), // 304
+  //   //   FlSpot(12, 86), // 366
+  //   //   FlSpot(14, 86), // 426
+  //   //   FlSpot(16, 86), // 487
+  //   //   FlSpot(18, 86), // 548
+  //   //   FlSpot(20, 86), // 609
+  //   //   FlSpot(22, 86), // 670
+  //   //   FlSpot(24, 86), // 731
+  //   // ],
+  // );
+  //
+  // static const _chartPercentile95Low = ChartPercentile([]);
+  //
+  // static const _chartPercentile90High = ChartPercentile(
+  //   [
+  //     FlSpot(0, 59), // 0
+  //     FlSpot(2, 86), // 61
+  //     FlSpot(4, 86), // 122
+  //     FlSpot(6, 86), // 183
+  //     FlSpot(8, 86), // 244
+  //     FlSpot(10, 86), // 304
+  //     FlSpot(12, 86), // 366
+  //     FlSpot(14, 86), // 426
+  //     FlSpot(16, 86), // 487
+  //     FlSpot(18, 86), // 548
+  //     FlSpot(20, 86), // 609
+  //     FlSpot(22, 86), // 670
+  //     FlSpot(24, 86), // 731
+  //   ],
+  // );
+  //
+  // static const _chartPercentile90Low = ChartPercentile(
+  //   [
+  //     FlSpot(0, 59), // 0
+  //     FlSpot(2, 86), // 61
+  //     FlSpot(4, 86), // 122
+  //     FlSpot(6, 86), // 183
+  //     FlSpot(8, 86), // 244
+  //     FlSpot(10, 86), // 304
+  //     FlSpot(12, 86), // 366
+  //     FlSpot(14, 86), // 426
+  //     FlSpot(16, 86), // 487
+  //     FlSpot(18, 86), // 548
+  //     FlSpot(20, 86), // 609
+  //     FlSpot(22, 86), // 670
+  //     FlSpot(24, 86), // 731
+  //   ],
+  // );
+  //
+  // static const _chartPercentile75High = ChartPercentile(
+  //   [
+  //     FlSpot(0, 59), // 0
+  //     FlSpot(2, 86), // 61
+  //     FlSpot(4, 86), // 122
+  //     FlSpot(6, 86), // 183
+  //     FlSpot(8, 86), // 244
+  //     FlSpot(10, 86), // 304
+  //     FlSpot(12, 86), // 366
+  //     FlSpot(14, 86), // 426
+  //     FlSpot(16, 86), // 487
+  //     FlSpot(18, 86), // 548
+  //     FlSpot(20, 86), // 609
+  //     FlSpot(22, 86), // 670
+  //     FlSpot(24, 86), // 731
+  //   ],
+  // );
+  //
+  // static const _chartPercentile75Low = ChartPercentile(
+  //   [
+  //     FlSpot(0, 59), // 0
+  //     FlSpot(2, 86), // 61
+  //     FlSpot(4, 86), // 122
+  //     FlSpot(6, 86), // 183
+  //     FlSpot(8, 86), // 244
+  //     FlSpot(10, 86), // 304
+  //     FlSpot(12, 86), // 366
+  //     FlSpot(14, 86), // 426
+  //     FlSpot(16, 86), // 487
+  //     FlSpot(18, 86), // 548
+  //     FlSpot(20, 86), // 609
+  //     FlSpot(22, 86), // 670
+  //     FlSpot(24, 86), // 731
+  //   ],
+  // );
+  //
+  // static const _chartPercentile50High = ChartPercentile(
+  //   [
+  //     FlSpot(0, 59), // 0
+  //     FlSpot(2, 86), // 61
+  //     FlSpot(4, 86), // 122
+  //     FlSpot(6, 86), // 183
+  //     FlSpot(8, 86), // 244
+  //     FlSpot(10, 86), // 304
+  //     FlSpot(12, 86), // 366
+  //     FlSpot(14, 86), // 426
+  //     FlSpot(16, 86), // 487
+  //     FlSpot(18, 86), // 548
+  //     FlSpot(20, 86), // 609
+  //     FlSpot(22, 86), // 670
+  //     FlSpot(24, 86), // 731
+  //   ],
+  // );
+  //
+  // static const _chartPercentile50Low = ChartPercentile(
+  //   [
+  //     FlSpot(0, 59), // 0
+  //     FlSpot(2, 86), // 61
+  //     FlSpot(4, 86), // 122
+  //     FlSpot(6, 86), // 183
+  //     FlSpot(8, 86), // 244
+  //     FlSpot(10, 86), // 304
+  //     FlSpot(12, 86), // 366
+  //     FlSpot(14, 86), // 426
+  //     FlSpot(16, 86), // 487
+  //     FlSpot(18, 86), // 548
+  //     FlSpot(20, 86), // 609
+  //     FlSpot(22, 86), // 670
+  //     FlSpot(24, 86), // 731
+  //   ],
+  // );
 }
