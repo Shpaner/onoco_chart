@@ -92,32 +92,25 @@ String getSideTitles(double value) {
 List<LineChartBarData> lineBarsData(
         {required ChartData chartData,
         required ChartType chartType,
-        required bool isDarkMode}) =>
+        required bool isDarkMode,
+        int multiplier = 0}) =>
     [
-      chartData.chartPercentile50High
-          .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
-      chartData.chartPercentile50Low
-          .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
-      chartData.chartPercentile75High
-          .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
-      chartData.chartPercentile75Low
-          .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
-      chartData.chartPercentile95High
-          .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
-      chartData.chartPercentile95Low
-          .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
-      chartData.chartPercentile90High
-          .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
-      chartData.chartPercentile90Low
-          .buildPercentiles()
-          .copyWith(colors: [chartColor(chartType).withOpacity(0.1)]),
+      chartData.chartPercentile50High.buildPercentiles().copyWith(
+          colors: [chartColor(chartType).withOpacity(0.2 * multiplier)]),
+      chartData.chartPercentile50Low.buildPercentiles().copyWith(
+          colors: [chartColor(chartType).withOpacity(0.2 * multiplier)]),
+      chartData.chartPercentile75High.buildPercentiles().copyWith(
+          colors: [chartColor(chartType).withOpacity(0.3 * multiplier)]),
+      chartData.chartPercentile75Low.buildPercentiles().copyWith(
+          colors: [chartColor(chartType).withOpacity(0.3 * multiplier)]),
+      chartData.chartPercentile95High.buildPercentiles().copyWith(
+          colors: [chartColor(chartType).withOpacity(1.0 * multiplier)]),
+      chartData.chartPercentile95Low.buildPercentiles().copyWith(
+          colors: [chartColor(chartType).withOpacity(1.0 * multiplier)]),
+      chartData.chartPercentile90High.buildPercentiles().copyWith(
+          colors: [chartColor(chartType).withOpacity(0.4 * multiplier)]),
+      chartData.chartPercentile90Low.buildPercentiles().copyWith(
+          colors: [chartColor(chartType).withOpacity(0.4 * multiplier)]),
       chartData.chartLine.buildLine().copyWith(
         barWidth: isDarkMode ? Constants.backgroundLineBarWidth : 0.0,
         dotData: FlDotData(

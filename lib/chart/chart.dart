@@ -76,6 +76,7 @@ class Chart extends StatelessWidget {
             chartData: chartData,
             chartType: chartType,
             isDarkMode: isDarkMode,
+            multiplier: isBackgroundChart ? 0 : 1,
           ),
           betweenBarsData:
               isBackgroundChart ? [] : percentiles(chartType: chartType),
