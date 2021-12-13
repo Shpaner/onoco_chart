@@ -5,7 +5,7 @@ import 'package:percentile_chart/chart/helpers.dart';
 
 import 'models.dart';
 
-class Chart extends StatelessWidget {
+class Chart extends StatefulWidget {
   final ChartData chartData;
   final ChartType chartType;
   final bool isDarkMode;
@@ -17,6 +17,11 @@ class Chart extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<Chart> createState() => _ChartState();
+}
+
+class _ChartState extends State<Chart> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -35,7 +40,9 @@ class Chart extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(Dimens.smallPadding),
           child: Card(
-            color: isDarkMode ? AppColors.backgroundColorDark : AppColors.white,
+            color: widget.isDarkMode
+                ? AppColors.backgroundColorDark
+                : AppColors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(Dimens.chardCardBorderRadius),
             ),
@@ -73,16 +80,16 @@ class Chart extends StatelessWidget {
           gridData: _gridData(shouldGridBeThick: isBackgroundChart),
           borderData: _borderData(isBackgroundChart: isBackgroundChart),
           lineBarsData: lineBarsData(
-            chartData: chartData,
-            chartType: chartType,
-            isDarkMode: isDarkMode,
+            chartData: widget.chartData,
+            chartType: widget.chartType,
+            isDarkMode: widget.isDarkMode,
           ),
           betweenBarsData:
-              isBackgroundChart ? [] : percentiles(chartType: chartType),
-          minX: chartData.chartExtent.minX,
-          maxX: chartData.chartExtent.maxX,
-          minY: chartData.chartExtent.minY,
-          maxY: chartData.chartExtent.maxY,
+              isBackgroundChart ? [] : percentiles(chartType: widget.chartType),
+          minX: widget.chartData.chartExtent.minX,
+          maxX: widget.chartData.chartExtent.maxX,
+          minY: widget.chartData.chartExtent.minY,
+          maxY: widget.chartData.chartExtent.maxY,
         ),
         swapAnimationDuration: const Duration(milliseconds: 250),
       );
@@ -102,7 +109,7 @@ class Chart extends StatelessWidget {
         margin: 10,
         interval: 1,
         getTextStyles: (context, value) => TextStyle(
-          color: isDarkMode ? AppColors.white : AppColors.black,
+          color: widget.isDarkMode ? AppColors.white : AppColors.black,
           fontWeight: FontWeight.w300,
           fontSize: 16,
         ),
@@ -116,7 +123,7 @@ class Chart extends StatelessWidget {
         interval: 1,
         reservedSize: 40,
         getTextStyles: (context, value) => TextStyle(
-          color: isDarkMode ? AppColors.white : AppColors.black,
+          color: widget.isDarkMode ? AppColors.white : AppColors.black,
           fontWeight: FontWeight.w300,
           fontSize: 16,
         ),
@@ -142,7 +149,7 @@ class Chart extends StatelessWidget {
         show: isBackgroundChart,
         border: Border(
           bottom: BorderSide(
-            color: isDarkMode
+            color: widget.isDarkMode
                 ? AppColors.borderColorDarkThick
                 : AppColors.borderColor,
             width: Constants.kGridThickness,
@@ -150,7 +157,7 @@ class Chart extends StatelessWidget {
           left: const BorderSide(color: Colors.transparent),
           right: const BorderSide(color: Colors.transparent),
           top: BorderSide(
-            color: isDarkMode
+            color: widget.isDarkMode
                 ? AppColors.borderColorDarkThick
                 : AppColors.borderColor,
             width: Constants.kGridThickness,
